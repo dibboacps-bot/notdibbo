@@ -101,6 +101,62 @@
       .cards { grid-template-columns: 1fr; }
       .btn.secondary { margin-left: 0; margin-top: 12px; }
     }
+     .video-box {
+  width: 100%;
+  max-width: 750px;
+  aspect-ratio: 16 / 9;
+  margin: 25px auto;
+}
+
+.video-box iframe {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #00d9ff;
+  border-radius: 14px;
+}
+.neon-button {
+  display: inline-block;
+  padding: 14px 25px;
+  color: #00eaff;
+  border: 2px solid #00eaff;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.neon-button:hover {
+  background: #00eaff;
+  color: #06101e;
+  box-shadow: 0 0 12px #00eaff, 0 0 30px #0077ff;
+  transform: translateY(-4px);
+}
+.cursor-glow {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00eaff;
+  box-shadow: 0 0 12px #00eaff, 0 0 28px #0077ff;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body:hover .cursor-glow {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  .cursor-glow {
+    display: none;
+  }
+}
   </style>
 </head>
 <body>
@@ -189,5 +245,23 @@
     © 2026 <strong>NOTDIBBO</strong>. All rights reserved.<br />
     Built for gamers. Powered by passion. 🎮
   </footer>
+<div class="cursor-glow"></div>
 </body>
 </html>
+ <a href="https://www.youtube.com/@NotDibbo07">
+  Visit My YouTube Channel
+</a>
+<a class="neon-button" href="/videos">
+  WATCH VIDEOS
+</a>
+<script>
+  const glow = document.querySelector(".cursor-glow");
+
+  if (glow) {
+    window.addEventListener("mousemove", (event) => {
+      glow.style.left = event.clientX + "px";
+      glow.style.top = event.clientY + "px";
+    });
+  }
+</script>
+
