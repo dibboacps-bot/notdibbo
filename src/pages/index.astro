@@ -157,6 +157,93 @@
     display: none;
   }
 }
+.gaming-gif {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #00d9ff;
+}
+/* Hide the normal mouse cursor on the website */
+* {
+  cursor: none !important;
+}
+
+/* Custom neon cursor */
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #00eaff;
+  box-shadow:
+    0 0 10px #00eaff,
+    0 0 25px #008cff,
+    0 0 45px #0077ff;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+}
+
+/* Hide custom cursor on touchscreens */
+@media (hover: none), (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+
+  .cursor-glow {
+    display: none;
+  }
+}
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+h1 {
+  animation: floating 3s ease-in-out infinite;
+}
+/* Hide normal cursor on desktop */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+
+  .cursor-ring {
+    position: fixed;
+    width: 34px;
+    height: 34px;
+    border: 2px solid #00eaff;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00eaff, 0 0 22px #0077ff;
+  }
+
+  .cursor-dot {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    background: #00eaff;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px #00eaff;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-ring {
+    display: none;
+  }
+}
   </style>
 </head>
 <body>
@@ -246,6 +333,20 @@
     Built for gamers. Powered by passion. 🎮
   </footer>
 <div class="cursor-glow"></div>
+<div class="cursor-glow"></div>
+<script>
+  const cursor = document.querySelector(".cursor-glow");
+
+  if (cursor) {
+    window.addEventListener("pointermove", (event) => {
+      cursor.style.left = event.clientX + "px";
+      cursor.style.top = event.clientY + "px";
+    });
+  }
+<div class="cursor-ring">
+  <div class="cursor-dot"></div>
+</div>
+</script>
 </body>
 </html>
  <a href="https://www.youtube.com/@NotDibbo07">
@@ -261,6 +362,17 @@
     window.addEventListener("mousemove", (event) => {
       glow.style.left = event.clientX + "px";
       glow.style.top = event.clientY + "px";
+    });
+  }
+</script>
+<img src="/gaming.gif" alt="NotDIBBO animation" class="gaming-gif">
+<script>
+  const ring = document.querySelector(".cursor-ring");
+
+  if (ring) {
+    window.addEventListener("pointermove", (event) => {
+      ring.style.left = event.clientX + "px";
+      ring.style.top = event.clientY + "px";
     });
   }
 </script>
