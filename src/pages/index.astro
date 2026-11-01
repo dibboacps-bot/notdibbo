@@ -1,50 +1,192 @@
----
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
----
 
-<!doctype html>
+---
+---
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to <a href="https://docs.astro.build/"
-					>read the docs
-				</a> or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out <a
-					href="https://github.com/Charca/astro-blog-template"
-					>astro-blog-template
-				</a> by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050b18" />
+  <meta name="description" content="Welcome to NOTDIBBO Gaming. Minecraft, GTA and more!" />
+  <title>NOTDIBBO | Gaming Universe</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #050b18;
+      color: #f4f8ff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 20px 8%;
+      background: rgba(5,11,24,.94);
+      border-bottom: 1px solid #15345c;
+      backdrop-filter: blur(12px);
+    }
+    .logo { font-size: 25px; font-weight: 900; letter-spacing: 2px; }
+    .logo span { color: #00baff; }
+    nav { display: flex; gap: 25px; }
+    nav a { color: #b9c9e0; font-size: 14px; }
+    nav a:hover { color: #00c8ff; }
+    .hero {
+      min-height: 590px; padding: 110px 8%;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      background:
+        radial-gradient(ellipse at 80% 45%, #073e76 0%, transparent 48%),
+        linear-gradient(120deg,#050b18,#091b35);
+      border-bottom: 1px solid #123b67;
+    }
+    .tag {
+      color: #00c8ff; border: 1px solid #007db5;
+      padding: 9px 16px; border-radius: 30px;
+      font-size: 12px; letter-spacing: 2px;
+      margin-bottom: 25px;
+    }
+    h1 { font-size: clamp(48px, 9vw, 88px); line-height: 1.05; }
+    h1 span { color: #00baff; text-shadow: 0 0 30px #007eff; }
+    .hero p { color: #a9bdd8; max-width: 550px; line-height: 1.8; margin: 25px 0 30px; }
+    .btn {
+      display: inline-block; padding: 15px 27px;
+      background: #008dff; border-radius: 7px;
+      font-weight: bold; box-shadow: 0 0 25px #007eff55;
+      transition: .2s;
+    }
+    .btn:hover { background: #00c8ff; transform: translateY(-3px); }
+    .btn.secondary { background: transparent; border: 1px solid #168bdb; margin-left: 10px; }
+    section { padding: 85px 8%; }
+    .heading { font-size: 34px; margin-bottom: 15px; }
+    .heading span { color: #00baff; }
+    .sub { color: #8fa6c5; margin-bottom: 35px; line-height: 1.7; }
+    .about {
+      background: #081326; border: 1px solid #16395e;
+      padding: 30px; border-radius: 14px;
+      color: #b4c6df; line-height: 1.9;
+      max-width: 850px;
+    }
+    .cards {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 22px;
+    }
+    .card {
+      background: linear-gradient(145deg,#102440,#081326);
+      border: 1px solid #19436d; border-radius: 13px;
+      padding: 28px; transition: .25s;
+    }
+    .card:hover {
+      transform: translateY(-7px);
+      border-color: #00baff;
+      box-shadow: 0 0 25px #008cff22;
+    }
+    .emoji { font-size: 43px; margin-bottom: 17px; }
+    .card h3 { font-size: 21px; margin-bottom: 12px; }
+    .card p { color: #9bb0cc; line-height: 1.7; font-size: 14px; }
+    .social { display: flex; flex-wrap: wrap; gap: 14px; }
+    footer {
+      text-align: center; padding: 30px 15px;
+      background: #030812; color: #8196b4;
+      border-top: 1px solid #15345c;
+      font-size: 13px; line-height: 2;
+    }
+    footer strong { color: #00baff; }
+    @media(max-width:700px) {
+      header { padding: 17px 5%; flex-wrap: wrap; gap: 15px; }
+      nav { gap: 14px; flex-wrap: wrap; }
+      nav a { font-size: 12px; }
+      .hero { padding: 90px 6%; min-height: 530px; }
+      section { padding: 65px 6%; }
+      .cards { grid-template-columns: 1fr; }
+      .btn.secondary { margin-left: 0; margin-top: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="#" class="logo">NOT<span>DIBBO</span></a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#games">Games</a>
+      <a href="#videos">Videos</a>
+      <a href="#social">Socials</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero" id="home">
+      <div class="tag">WELCOME TO MY GAMING UNIVERSE</div>
+      <h1>LEVEL UP WITH<br /><span>NOTDIBBO.</span></h1>
+      <p>
+        Gaming, adventures and epic moments!
+        Join me on my journey through Minecraft,
+        GTA and many more exciting games.
+      </p>
+      <div>
+        <a class="btn" href="https://www.youtube.com/@NotDIBBO" target="_blank">▶ SUBSCRIBE NOW</a>
+        <a class="btn secondary" href="#games">EXPLORE</a>
+      </div>
+    </div>
+
+    <section id="about">
+      <h2 class="heading">ABOUT <span>ME</span></h2>
+      <p class="sub">Welcome to the world of NOTDIBBO.</p>
+      <div class="about">
+        Hey gamers! Welcome to NOTDIBBO, my gaming universe.
+        Here you can discover gaming videos, adventures,
+        challenges and entertaining moments. From Minecraft
+        to GTA, there is always something exciting happening.
+        Subscribe and become part of the community!
+      </div>
+    </section>
+
+    <section id="games">
+      <h2 class="heading">MY <span>GAMES</span></h2>
+      <p class="sub">Explore the games featured on my channel.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="emoji">⛏️</div>
+          <h3>Minecraft</h3>
+          <p>Survival, PvP, Bedwars, builds and crazy adventures.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🚗</div>
+          <h3>GTA</h3>
+          <p>Open-world adventures, driving and exciting gameplay.</p>
+        </div>
+        <div class="card">
+          <div class="emoji">🎮</div>
+          <h3>More Games</h3>
+          <p>Discover more gaming content and new adventures.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="videos">
+      <h2 class="heading">LATEST <span>VIDEOS</span></h2>
+      <p class="sub">Watch my gaming content on YouTube.</p>
+      <div class="about">
+        Ready for some epic gameplay?
+        Visit my YouTube channel to watch my latest uploads!
+        <br /><br />
+        <a class="btn" href="https://www.youtube.com/@NotDIBBO" target="_blank">WATCH ON YOUTUBE ↗</a>
+      </div>
+    </section>
+
+    <section id="social">
+      <h2 class="heading">JOIN THE <span>COMMUNITY</span></h2>
+      <p class="sub">Follow NOTDIBBO and never miss an update.</p>
+      <div class="social">
+        <a class="btn" href="https://www.youtube.com/@NotDIBBO" target="_blank">▶ YouTube</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 <strong>NOTDIBBO</strong>. All rights reserved.<br />
+    Built for gamers. Powered by passion. 🎮
+  </footer>
+</body>
 </html>
