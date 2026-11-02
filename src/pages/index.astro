@@ -1,6 +1,3 @@
-
----
----
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,254 +7,384 @@
   <meta name="description" content="Welcome to NOTDIBBO Gaming. Minecraft, GTA and more!" />
   <title>NOTDIBBO | Gaming Universe</title>
   <style>
+    :root {
+      --bg: #050b18;
+      --panel: rgba(8, 19, 38, .82);
+      --blue: #b56bff;
+      --cyan: #d7a2ff;
+      --muted: #a9bdd8;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
-      background: #050b18;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
       color: #f4f8ff;
       font-family: Arial, Helvetica, sans-serif;
+      isolation: isolate;
     }
     a { color: inherit; text-decoration: none; }
-    header {
-      position: sticky; top: 0; z-index: 10;
-      display: flex; justify-content: space-between;
-      align-items: center; padding: 20px 8%;
-      background: rgba(5,11,24,.94);
-      border-bottom: 1px solid #15345c;
-      backdrop-filter: blur(12px);
+    button, a { -webkit-tap-highlight-color: transparent; }
+
+    /* Animated galaxy background */
+    #galaxy {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .9;
     }
-    .logo { font-size: 25px; font-weight: 900; letter-spacing: 2px; }
-    .logo span { color: #00baff; }
-    nav { display: flex; gap: 25px; }
-    nav a { color: #b9c9e0; font-size: 14px; }
-    nav a:hover { color: #00c8ff; }
-    .hero {
-      min-height: 590px; padding: 110px 8%;
-      display: flex; flex-direction: column;
-      justify-content: center; align-items: flex-start;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: -1;
+      pointer-events: none;
       background:
-        radial-gradient(ellipse at 80% 45%, #073e76 0%, transparent 48%),
-        linear-gradient(120deg,#050b18,#091b35);
-      border-bottom: 1px solid #123b67;
+        radial-gradient(ellipse at 18% 28%, rgba(112, 35, 190, .25), transparent 36%),
+        radial-gradient(ellipse at 82% 62%, rgba(150, 55, 220, .20), transparent 38%),
+        radial-gradient(ellipse at 52% 100%, rgba(115, 55, 200, .13), transparent 35%);
+      filter: blur(20px);
+      animation: nebulaDrift 22s ease-in-out infinite alternate;
     }
+    @keyframes nebulaDrift {
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to { transform: translate3d(2%, 2%, 0) scale(1.12); }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 13px 8%;
+      background: rgba(5, 11, 24, .78);
+      border-bottom: 1px solid rgba(21, 91, 145, .55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .logo { display: inline-flex; align-items: center; flex-shrink: 0; }
+    .logo img {
+      display: block;
+      width: 62px;
+      height: 62px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px rgba(0, 234, 255, .7));
+      transition: transform .3s ease, filter .3s ease;
+    }
+    .logo:hover img { transform: rotate(-5deg) scale(1.08); filter: drop-shadow(0 0 17px var(--cyan)); }
+    nav { display: flex; align-items: center; flex-wrap: wrap; gap: 23px; }
+    nav a {
+      position: relative;
+      padding: 9px 0;
+      color: #c0d0e6;
+      font-size: 14px;
+      transition: color .25s ease;
+    }
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 2px;
+      width: 100%;
+      height: 2px;
+      background: var(--cyan);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform .25s ease;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+    nav a:hover, nav a:focus-visible { color: var(--cyan); }
+    nav a:hover::after, nav a:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+
+    .hero {
+      position: relative;
+      min-height: 590px;
+      padding: 110px 8%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      background: linear-gradient(120deg, rgba(5,11,24,.42), rgba(9,27,53,.24));
+      border-bottom: 1px solid rgba(18, 59, 103, .7);
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      right: 8%;
+      top: 18%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(157, 75, 255, .16), transparent 68%);
+      filter: blur(10px);
+      pointer-events: none;
+      animation: heroPulse 5s ease-in-out infinite alternate;
+    }
+    @keyframes heroPulse { to { transform: scale(1.25); opacity: .55; } }
+    .hero > * { position: relative; z-index: 1; }
     .tag {
-      color: #00c8ff; border: 1px solid #007db5;
-      padding: 9px 16px; border-radius: 30px;
-      font-size: 12px; letter-spacing: 2px;
+      color: var(--cyan);
+      border: 1px solid rgba(0, 190, 255, .6);
+      background: rgba(0, 160, 255, .08);
+      padding: 9px 16px;
+      border-radius: 30px;
+      font-size: 12px;
+      letter-spacing: 2px;
       margin-bottom: 25px;
+      box-shadow: 0 0 20px rgba(0, 174, 255, .1), inset 0 0 14px rgba(0, 174, 255, .06);
     }
-    h1 { font-size: clamp(48px, 9vw, 88px); line-height: 1.05; }
-    h1 span { color: #00baff; text-shadow: 0 0 30px #007eff; }
-    .hero p { color: #a9bdd8; max-width: 550px; line-height: 1.8; margin: 25px 0 30px; }
-    .btn {
-      display: inline-block; padding: 15px 27px;
-      background: #008dff; border-radius: 7px;
-      font-weight: bold; box-shadow: 0 0 25px #007eff55;
-      transition: .2s;
+    h1 { font-size: clamp(48px, 9vw, 88px); line-height: 1.05; animation: floating 4s ease-in-out infinite; }
+    h1 span { color: var(--blue); text-shadow: 0 0 30px rgba(0, 126, 255, .8); }
+    @keyframes floating { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    .hero p { color: var(--muted); max-width: 550px; line-height: 1.8; margin: 25px 0 30px; }
+
+    /* Responsive animated buttons */
+    .button-row { display: flex; flex-wrap: wrap; gap: 13px; }
+    .btn, .neon-button {
+      position: relative;
+      isolation: isolate;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      min-height: 49px;
+      padding: 14px 25px;
+      overflow: hidden;
+      border: 1px solid rgba(70, 207, 255, .55);
+      border-radius: 9px;
+      background: linear-gradient(110deg, #7027d9, #a855f7);
+      color: #fff;
+      font: inherit;
+      font-weight: 800;
+      letter-spacing: .3px;
+      box-shadow: 0 0 22px rgba(145, 65, 255, .32);
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, border-color .22s ease;
+      cursor: pointer;
+      touch-action: manipulation;
     }
-    .btn:hover { background: #00c8ff; transform: translateY(-3px); }
-    .btn.secondary { background: transparent; border: 1px solid #168bdb; margin-left: 10px; }
+    .btn::before, .neon-button::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: -70%;
+      left: -55%;
+      width: 38%;
+      height: 240%;
+      background: rgba(255,255,255,.35);
+      transform: rotate(25deg);
+      transition: left .55s ease;
+    }
+    .btn:hover::before, .neon-button:hover::before { left: 130%; }
+    .btn:hover, .neon-button:hover {
+      transform: translateY(-4px) scale(1.025);
+      background: linear-gradient(110deg, #8b35ed, #d08aff);
+      border-color: #a1f5ff;
+      box-shadow: 0 0 14px rgba(190, 115, 255, .65), 0 0 35px rgba(125, 55, 230, .45);
+    }
+    .btn:active, .neon-button:active { transform: translateY(1px) scale(.97); box-shadow: 0 0 10px rgba(0, 234, 255, .35); }
+    .btn:focus-visible, .neon-button:focus-visible, nav a:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 4px;
+    }
+    .btn.secondary {
+      background: rgba(4, 18, 38, .55);
+      color: var(--cyan);
+      border: 1px solid #a855f7;
+      box-shadow: inset 0 0 15px rgba(0, 174, 255, .06);
+    }
+    .btn.secondary:hover { color: #04101e; background: var(--cyan); }
+    .neon-button { background: transparent; color: var(--cyan); border: 2px solid var(--cyan); }
+
     section { padding: 85px 8%; }
-    .heading { font-size: 34px; margin-bottom: 15px; }
-    .heading span { color: #00baff; }
+    .heading, #videos h2 { font-size: 34px; margin-bottom: 15px; }
+    .heading span { color: var(--blue); }
     .sub { color: #8fa6c5; margin-bottom: 35px; line-height: 1.7; }
     .about {
-      background: #081326; border: 1px solid #16395e;
-      padding: 30px; border-radius: 14px;
-      color: #b4c6df; line-height: 1.9;
+      background: var(--panel);
+      border: 1px solid #16395e;
+      padding: 30px;
+      border-radius: 14px;
+      color: #b4c6df;
+      line-height: 1.9;
       max-width: 850px;
+      backdrop-filter: blur(8px);
     }
-    .cards {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 22px;
-    }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
     .card {
-      background: linear-gradient(145deg,#102440,#081326);
-      border: 1px solid #19436d; border-radius: 13px;
-      padding: 28px; transition: .25s;
+      background: linear-gradient(145deg, rgba(16,36,64,.88), rgba(8,19,38,.88));
+      border: 1px solid #19436d;
+      border-radius: 13px;
+      padding: 28px;
+      transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease;
+      backdrop-filter: blur(8px);
     }
     .card:hover {
-      transform: translateY(-7px);
-      border-color: #00baff;
-      box-shadow: 0 0 25px #008cff22;
+      transform: translateY(-8px);
+      border-color: var(--cyan);
+      box-shadow: 0 12px 35px rgba(160, 80, 255, .18), 0 0 22px rgba(190, 110, 255, .14);
     }
     .emoji { font-size: 43px; margin-bottom: 17px; }
     .card h3 { font-size: 21px; margin-bottom: 12px; }
     .card p { color: #9bb0cc; line-height: 1.7; font-size: 14px; }
+    .video-box {
+      width: 100%;
+      max-width: 750px;
+      aspect-ratio: 16 / 9;
+      margin: 25px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 28px rgba(175, 90, 255, .25);
+    }
+    .video-box iframe { width: 100%; height: 100%; border: 2px solid var(--cyan); border-radius: 14px; }
+    .gaming-gif {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      margin: 28px auto 0;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(175, 90, 255, .4);
+    }
     .social { display: flex; flex-wrap: wrap; gap: 14px; }
     footer {
-      text-align: center; padding: 30px 15px;
-      background: #030812; color: #8196b4;
+      text-align: center;
+      padding: 30px 15px;
+      background: rgba(3,8,18,.88);
+      color: #8196b4;
       border-top: 1px solid #15345c;
-      font-size: 13px; line-height: 2;
+      font-size: 13px;
+      line-height: 2;
     }
-    footer strong { color: #00baff; }
-    @media(max-width:700px) {
-      header { padding: 17px 5%; flex-wrap: wrap; gap: 15px; }
-      nav { gap: 14px; flex-wrap: wrap; }
-      nav a { font-size: 12px; }
-      .hero { padding: 90px 6%; min-height: 530px; }
+    footer strong { color: var(--blue); }
+
+    /* Ripple feedback, added by JavaScript */
+    .ripple {
+      position: absolute;
+      z-index: 2;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.55);
+      transform: translate(-50%, -50%) scale(0);
+      pointer-events: none;
+      animation: ripple .55s ease-out forwards;
+    }
+    @keyframes ripple { to { transform: translate(-50%, -50%) scale(18); opacity: 0; } }
+
+
+    /* Right-side scroll position indicator */
+    .section-tracker {
+      position: fixed;
+      z-index: 30;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      padding: 13px 10px;
+      border: 1px solid rgba(190, 125, 255, .28);
+      border-radius: 30px;
+      background: rgba(13, 7, 28, .62);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 25px rgba(142, 65, 230, .16);
+    }
+    .section-tracker a {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      width: 12px;
+      height: 12px;
+      border-radius: 20px;
+      background: rgba(202, 170, 235, .42);
+      transition: width .25s ease, background .25s ease, box-shadow .25s ease;
+    }
+    .section-tracker a::before {
+      content: attr(data-label);
+      position: absolute;
+      right: 22px;
+      white-space: nowrap;
+      padding: 7px 11px;
+      border: 1px solid rgba(190, 125, 255, .4);
+      border-radius: 7px;
+      color: #f4eaff;
+      background: rgba(23, 10, 43, .96);
+      font-size: 12px;
+      opacity: 0;
+      transform: translateX(6px);
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .section-tracker a:hover,
+    .section-tracker a:focus-visible,
+    .section-tracker a.active {
+      width: 23px;
+      background: #b56bff;
+      box-shadow: 0 0 9px #b56bff, 0 0 20px rgba(181, 107, 255, .65);
+      outline: none;
+    }
+    .section-tracker a:hover::before,
+    .section-tracker a:focus-visible::before,
+    .section-tracker a.active:hover::before {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .section-tracker a.active::before {
+      opacity: 1;
+      transform: translateX(0);
+      border-color: rgba(181, 107, 255, .65);
+    }
+
+    @media (max-width: 800px) {
+      header { padding: 12px 5%; }
+      nav { gap: 14px; }
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .section-tracker { right: 7px; gap: 11px; padding: 10px 7px; }
+      .section-tracker a::before { display: none; }
+
+      header { align-items: center; flex-direction: column; gap: 8px; padding: 10px 4%; }
+      .logo img { width: 52px; height: 52px; }
+      nav { justify-content: center; gap: 7px 16px; }
+      nav a { font-size: 12px; padding: 5px 0; }
+      .hero { min-height: 530px; padding: 85px 6%; }
+      .hero p { font-size: 15px; }
       section { padding: 65px 6%; }
       .cards { grid-template-columns: 1fr; }
-      .btn.secondary { margin-left: 0; margin-top: 12px; }
+      .heading, #videos h2 { font-size: 29px; }
+      .button-row { width: 100%; }
+      .button-row .btn { flex: 1 1 190px; }
+      .about { padding: 22px; }
     }
-     .video-box {
-  width: 100%;
-  max-width: 750px;
-  aspect-ratio: 16 / 9;
-  margin: 25px auto;
-}
-
-.video-box iframe {
-  width: 100%;
-  height: 100%;
-  border: 2px solid #00d9ff;
-  border-radius: 14px;
-}
-.neon-button {
-  display: inline-block;
-  padding: 14px 25px;
-  color: #00eaff;
-  border: 2px solid #00eaff;
-  border-radius: 10px;
-  text-decoration: none;
-  transition: 0.3s ease;
-}
-
-.neon-button:hover {
-  background: #00eaff;
-  color: #06101e;
-  box-shadow: 0 0 12px #00eaff, 0 0 30px #0077ff;
-  transform: translateY(-4px);
-}
-.cursor-glow {
-  position: fixed;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #00eaff;
-  box-shadow: 0 0 12px #00eaff, 0 0 28px #0077ff;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  left: 0;
-  top: 0;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  body:hover .cursor-glow {
-    opacity: 1;
-  }
-}
-
-@media (hover: none) {
-  .cursor-glow {
-    display: none;
-  }
-}
-.gaming-gif {
-  width: 100%;
-  max-width: 600px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #00d9ff;
-}
-/* Hide the normal mouse cursor on the website */
-* {
-  cursor: none !important;
-}
-
-/* Custom neon cursor */
-.cursor-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #00eaff;
-  box-shadow:
-    0 0 10px #00eaff,
-    0 0 25px #008cff,
-    0 0 45px #0077ff;
-  pointer-events: none;
-  z-index: 99999;
-  transform: translate(-50%, -50%);
-}
-
-/* Hide custom cursor on touchscreens */
-@media (hover: none), (pointer: coarse) {
-  * {
-    cursor: auto !important;
-  }
-
-  .cursor-glow {
-    display: none;
-  }
-}
-@keyframes floating {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-12px);
-  }
-}
-
-h1 {
-  animation: floating 3s ease-in-out infinite;
-}
-/* Hide normal cursor on desktop */
-@media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
-
-  .cursor-ring {
-    position: fixed;
-    width: 34px;
-    height: 34px;
-    border: 2px solid #00eaff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 999999;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #00eaff, 0 0 22px #0077ff;
-  }
-
-  .cursor-dot {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    background: #00eaff;
-    border-radius: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 10px #00eaff;
-  }
-}
-
-@media (hover: none), (pointer: coarse) {
-  .cursor-ring {
-    display: none;
-  }
-}
-.logo img {
-  width: 65px;
-  height: 65px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 10px #00eaff);
-}
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      #galaxy { opacity: .45; }
+    }
   </style>
 </head>
 <body>
+  <canvas id="galaxy" aria-hidden="true"></canvas>
+
   <header>
-    <a href="/" class="logo">
-  <img src="NotDIBBO Neon Gaming Emblem.png" alt="NotDIBBO Logo">
-</a>
-    <nav>
+    <a href="#home" class="logo" aria-label="NOTDIBBO home">
+      <img src="NotDIBBO Neon Gaming Emblem.png" alt="NotDIBBO Logo">
+    </a>
+    <nav aria-label="Main navigation">
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#games">Games</a>
@@ -266,20 +393,28 @@ h1 {
     </nav>
   </header>
 
+  <nav class="section-tracker" aria-label="Page sections">
+    <a href="#home" data-label="Home" aria-label="Go to Home" class="active"></a>
+    <a href="#about" data-label="About" aria-label="Go to About"></a>
+    <a href="#games" data-label="Games" aria-label="Go to Games"></a>
+    <a href="#videos" data-label="Videos" aria-label="Go to Videos"></a>
+    <a href="#social" data-label="Socials" aria-label="Go to Socials"></a>
+  </nav>
+
   <main>
-    <div class="hero" id="home">
+    <section class="hero" id="home">
       <div class="tag">WELCOME TO MY GAMING UNIVERSE</div>
-      <h1>LEVEL UP WITH<br /><span>NOTDIBBO.</span></h1>
+      <h1>LEVEL UP WITH<br><span>NOTDIBBO.</span></h1>
       <p>
         Gaming, adventures and epic moments!
         Join me on my journey through Minecraft,
         GTA and many more exciting games.
       </p>
-      <div>
-        <a class="btn" href="https://www.youtube.com/@NotDibbo07" target="_blank">▶ SUBSCRIBE NOW</a>
+      <div class="button-row">
+        <a class="btn" href="https://www.youtube.com/@NotDibbo07" target="_blank" rel="noopener noreferrer">▶ SUBSCRIBE NOW</a>
         <a class="btn secondary" href="#games">EXPLORE</a>
       </div>
-    </div>
+    </section>
 
     <section id="about">
       <h2 class="heading">ABOUT <span>ME</span></h2>
@@ -316,73 +451,128 @@ h1 {
     </section>
 
     <section id="videos">
-  <h2>Latest Videos</h2>
-
-  <div class="video-box">
-    <iframe
-      src="https://www.youtube.com/embed/EiIwbaXsvUE"
-      title="NotDIBBO YouTube video"
-      allowfullscreen
-    ></iframe>
-  </div>
-</section>
+      <h2 class="heading">LATEST <span>VIDEOS</span></h2>
+      <div class="video-box">
+        <iframe
+          src="https://www.youtube.com/embed/EiIwbaXsvUE"
+          title="NotDIBBO YouTube video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <img src="/gaming.gif" alt="NotDIBBO gaming animation" class="gaming-gif" loading="lazy">
+      <div class="social" style="justify-content:center; margin-top:24px;">
+        <a class="neon-button" href="https://www.youtube.com/@NotDibbo07" target="_blank" rel="noopener noreferrer">▶ VISIT MY YOUTUBE CHANNEL</a>
+      </div>
+    </section>
 
     <section id="social">
       <h2 class="heading">JOIN THE <span>COMMUNITY</span></h2>
       <p class="sub">Follow NOTDIBBO and never miss an update.</p>
       <div class="social">
-        <a class="btn" href="https://www.youtube.com/@NotDibbo07" target="_blank">▶ YouTube</a>
+        <a class="btn" href="https://www.youtube.com/@NotDibbo07" target="_blank" rel="noopener noreferrer">▶ YouTube</a>
       </div>
     </section>
   </main>
 
   <footer>
-    © 2026 <strong>NOTDIBBO</strong>. All rights reserved.<br />
+    © 2026 <strong>NOTDIBBO</strong>. All rights reserved.<br>
     Built for gamers. Powered by passion. 🎮
   </footer>
-<div class="cursor-glow"></div>
-<div class="cursor-glow"></div>
-<script>
-  const cursor = document.querySelector(".cursor-glow");
 
-  if (cursor) {
-    window.addEventListener("pointermove", (event) => {
-      cursor.style.left = event.clientX + "px";
-      cursor.style.top = event.clientY + "px";
+  <script>
+    // Lightweight animated starfield. It pauses when the tab is hidden.
+    (() => {
+      const canvas = document.getElementById("galaxy");
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let width = 0, height = 0, stars = [], frame = 0;
+      const starCount = Math.min(190, Math.floor((window.innerWidth * window.innerHeight) / 8500));
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        stars = Array.from({ length: starCount }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.5 + .25,
+          speed: Math.random() * .24 + .04,
+          phase: Math.random() * Math.PI * 2,
+          twinkle: Math.random() * .018 + .004
+        }));
+        draw();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        for (const star of stars) {
+          const alpha = .35 + (Math.sin(star.phase) + 1) * .3;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(224, 205, 255, ${alpha})`;
+          ctx.shadowBlur = star.radius > 1.2 ? 9 : 3;
+          ctx.shadowColor = "#b56bff";
+          ctx.fill();
+          ctx.shadowBlur = 0;
+
+          if (!reduceMotion) {
+            star.y += star.speed;
+            star.phase += star.twinkle;
+            if (star.y > height + 3) {
+              star.y = -3;
+              star.x = Math.random() * width;
+            }
+          }
+        }
+        if (!reduceMotion) frame = requestAnimationFrame(draw);
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) cancelAnimationFrame(frame);
+        else if (!reduceMotion) draw();
+      });
+      window.addEventListener("resize", resize, { passive: true });
+      resize();
+    })();
+
+    // Add a soft click ripple to interactive buttons.
+    document.querySelectorAll(".btn, .neon-button").forEach((button) => {
+      button.addEventListener("click", (event) => {
+        const rect = button.getBoundingClientRect();
+        const ripple = document.createElement("span");
+        ripple.className = "ripple";
+        ripple.style.left = (event.clientX ? event.clientX - rect.left : rect.width / 2) + "px";
+        ripple.style.top = (event.clientY ? event.clientY - rect.top : rect.height / 2) + "px";
+        button.appendChild(ripple);
+        ripple.addEventListener("animationend", () => ripple.remove(), { once: true });
+      });
     });
-  }
-</script>
-<div class="cursor-ring">
-  <div class="cursor-dot"></div>
-</div>
+
+    // Highlight the section currently visible in the viewport.
+    const trackedSections = document.querySelectorAll("main section[id], main .hero[id]");
+    const trackerLinks = document.querySelectorAll(".section-tracker a");
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        trackerLinks.forEach((link) => {
+          const isActive = link.getAttribute("href") === "#" + entry.target.id;
+          link.classList.toggle("active", isActive);
+          if (isActive) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+      });
+    }, { rootMargin: "-35% 0px -45% 0px", threshold: 0 });
+    trackedSections.forEach((section) => sectionObserver.observe(section));
+  </script>
 </body>
 </html>
- <a href="https://www.youtube.com/@NotDibbo07">
-  Visit My YouTube Channel
-</a>
-<a class="neon-button" href="/videos">
-  WATCH VIDEOS
-</a>
-<script>
-  const glow = document.querySelector(".cursor-glow");
-
-  if (glow) {
-    window.addEventListener("mousemove", (event) => {
-      glow.style.left = event.clientX + "px";
-      glow.style.top = event.clientY + "px";
-    });
-  }
-</script>
-<img src="/gaming.gif" alt="NotDIBBO animation" class="gaming-gif">
-<script>
-  const ring = document.querySelector(".cursor-ring");
-
-  if (ring) {
-    window.addEventListener("pointermove", (event) => {
-      ring.style.left = event.clientX + "px";
-      ring.style.top = event.clientY + "px";
-    });
-  }
-</script>
-
-
