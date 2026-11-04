@@ -1,5 +1,5 @@
 {
-	"name": "notdibbo",
+	"name": "astro-blog-starter-template",
 	"description": "Build a personal website, blog, or portfolio with Astro.",
 	"cloudflare": {
 		"label": "Astro Framework Starter",
@@ -20,7 +20,7 @@
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
-		"wrangler": "4.136.1"
+		"wrangler": "4.88.0"
 	},
 	"engines": {
 		"node": ">=22"
